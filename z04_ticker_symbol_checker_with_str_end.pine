@@ -1,0 +1,13 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Thomas Jung
+
+//@version=5
+indicator(title="Quick str.endswith() example", overlay=true)
+
+// Check if the chart instrument's symbol ends with 'USD'
+usdInstrument = str.endswith(syminfo.ticker, "USD")
+
+// On the last historical bar, draw a label saying the instrument
+// does (or does not) has a ticker that ends with 'USD'
+if barstate.islastconfirmedhistory
+    label.new(bar_index, high, color=color.black, textcolor=color.white, text="Symbol (ticker): " + syminfo.ticker + "\n\nDoes the synmbol end with 'USD?\n" + str.tostring(usdInstrument))

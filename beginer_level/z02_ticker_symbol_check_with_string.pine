@@ -1,0 +1,13 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Thomas Jung
+
+//@version=5
+indicator(title="Quick str.contains() example", overlay=true)
+
+// Determine based on the instrument's description if it's an
+// instrument based on the QQQ (Nasdaq 100 ETF)
+isQQQIns = str.contains(syminfo.description, "QQQ")
+
+// Print the result in a label on the last historical bar
+if barstate.islastconfirmedhistory
+    label.new(bar_index, high, color=color.black, textcolor=color.white, text=syminfo.description + "\n\nIs this a QQQ instrument? " + str.tostring(isQQQIns))

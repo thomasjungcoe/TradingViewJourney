@@ -1,0 +1,12 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Thomas Jung
+
+//@version=5
+indicator(title="Quick str.startswith() example", overlay=true)
+
+// Check if the instrument's symbol begins with "ES"
+esInstrument = str.startswith(syminfo.ticker, "ES")
+
+// Draw a label on the last historical bar to share the result
+if barstate.islastconfirmedhistory
+    label.new(bar_index, high, color=color.black, textcolor=color.white, text=syminfo.ticker + "\n\nDoes the symbol start with 'ES'?\n" + str.tostring(esInstrument))
