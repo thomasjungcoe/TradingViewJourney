@@ -1,0 +1,21 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © Thomas Jung
+
+//@version=5
+indicator(title="Example of str.tostring()", overlay=true)
+
+// Calc and plot exponential moving avg
+emaValue = ta.ema(close,20)
+
+plot(emaValue, color=color.orange, linewidth=2, title="EMA")
+
+// On the chart's last bars, generate a string and make a label
+if barstate.islast
+    // Calc percentage difference betwen close and EMA
+    priceDiff = (close / emaValue) - 1
+
+    // Generate the label's text to show last and average price
+    labelText = syminfo.description + "\nLast price: " + str.tostring(close, "#,###.00") + "\nAverage price: " + str.tostring(emaValue, format.mintick) + "\nDifference: " + str.tostring(priceDiff, "0.00%")
+
+    // Create the label with the generated text
+    label.new(bar_index, close, style=label.style_label_left, color=color.navy, textcolor=color.white, size=size.large, text=labelText)
