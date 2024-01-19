@@ -1,0 +1,22 @@
+//@version=5
+indicator(title="My Test for empty string", overlay=true)
+
+// Make a text input for the signal message
+signalText = input.string("", title="Signal Message")
+buySignal = input.string("BUY", title="Buy Signal")
+sellSignal = input.string("SELL", title="Sell Signal")
+
+// Calculate and plot two Exponential Moving Average
+emaFast = ta.ema(close, 9)
+emaSlow = ta.ema(close, 21)
+
+plot(emaFast, color=color.orange, title="EMA Fast")
+plot(emaSlow, color=color.teal, linewidth=2, title="EMA Slow")
+
+// When the signal text input isn't an empty string, and the fast
+// average crossed the slow one, highlight the signal with a label
+if signalText != "test" and ta.cross(emaFast, emaSlow)
+    if(emaFast>emaSlow)
+        label.new(bar_index, high, buySignal, color=color.blue, textcolor=color.white, size=size.small)
+    if(emaFast<emaSlow)
+        label.new(bar_index, low, sellSignal, color=color.red, textcolor=color.white, size=size.small)
