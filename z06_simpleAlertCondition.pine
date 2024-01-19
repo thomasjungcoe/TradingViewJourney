@@ -1,16 +1,20 @@
 //@version=5
 indicator(title="My Test for empty string", overlay=true)
 
+// Fetch the closing prices from the 1-minute and 5-minute timeframes
+close1 = request.security(syminfo.tickerid, "1", close)
+close5 = request.security(syminfo.tickerid, "5", close)
+
 // Calculate and plot two Exponential Moving Averages on different timeframes
-emaFast = ta.ema(request.security(syminfo.tickerid, "1", close), 5)
-emaSlow = ta.ema(request.security(syminfo.tickerid, "5", close), 5)
+emaFast = ta.ema(close1, 5)
+emaSlow = ta.ema(close5, 5)
 
 plot(emaFast, color=color.orange, title="EMA Fast")
 plot(emaSlow, color=color.teal, title="EMA Slow")
 
 // Calculate the conditions for the arrows
-crossUp = ta.cross(emaFast, emaSlow) and emaFast > emaSlow
-crossDown = ta.cross(emaFast, emaSlow) and emaFast < emaSlow
+crossUp = ta.crossover(emaFast, emaSlow)
+crossDown = ta.crossunder(emaFast, emaSlow)
 
 // Create alert conditions
 alertcondition(crossUp, title="Cross Up", message="EMA Fast crossed above EMA Slow")
